@@ -36,7 +36,8 @@ async fn main() -> anyhow::Result<()> {
 
     let state = AppState { client };
 
-    let assets_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("assets");
+    let assets_dir = PathBuf::from(env!("PWD")).join("assets");
+    info!("assets dir: {:?}", assets_dir);
     let static_files_service = ServeDir::new(assets_dir).append_index_html_on_directories(true);
     // build our application with a route
     let app = Router::new()
@@ -48,7 +49,7 @@ async fn main() -> anyhow::Result<()> {
 
     // run it
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    println!("listening on {}", listener.local_addr().unwrap());
+    info!("listening on {}", listener.local_addr().unwrap());
     axum::serve(listener, app).await.unwrap();
     Ok(())
 }

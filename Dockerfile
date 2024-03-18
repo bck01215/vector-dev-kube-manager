@@ -56,11 +56,11 @@ RUN adduser \
 USER appuser
 
 # Copy the executable from the "build" stage.
-COPY --from=build /bin/server /bin/
-COPY --from=frontend /assets /assets
+COPY --from=build /bin/server /server
+COPY --from=frontend /assets /app/assets
 
 # Expose the port that the application listens on.
 EXPOSE 3000
 
 # What the container should run when it is started.
-CMD ["/bin/server"]
+CMD ["/server"]
